@@ -1,0 +1,90 @@
+# Schema
+
+This API allows you to access the Schema of your app.
+
+To fetch the Schema for all the classes of your app run:
+```bash
+curl -X GET \
+  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "Content-Type: application/json" \
+  https://api.parse.com/1/classes
+```
+```python
+import json,httplib
+connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection.connect()
+connection.request('POST', '/1/functions/hello', json.dumps({
+     }), {
+       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-REST-API-Key": "${REST_API_KEY}",
+       "Content-Type": "application/json"
+     })
+result = json.loads(connection.getresponse().read())
+print result
+```
+
+The response body is JSON containing all the schema information of the app.
+
+```json
+{
+  "results": [
+    {
+      "className": "Game",
+      "fields": {
+        "ACL": {
+          "type": "ACL"
+        },
+        "createdAt": {
+          "type": "Date"
+        },
+        "objectId": {
+          "type": "String"
+        },
+        "name": {
+          "type": "String"
+        },
+        "score": {
+          "type": "Number"
+        },
+        "updatedAt": {
+          "type": "Date"
+        }
+      }
+    },
+    {
+      "className": "_User",
+      "fields": {
+        "ACL": {
+          "type": "ACL"
+        },
+        "authData": {
+          "type": "Object"
+        },
+        "createdAt": {
+          "type": "Date"
+        },
+        "email": {
+          "type": "String"
+        },
+        "emailVerified": {
+          "type": "Boolean"
+        },
+        "objectId": {
+          "type": "String"
+        },
+        "password": {
+          "type": "String"
+        },
+        "updatedAt": {
+          "type": "Date"
+        },
+        "username": {
+          "type": "String"
+        }
+      }
+    }
+  ]
+}
+  
+
