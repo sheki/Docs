@@ -166,7 +166,7 @@ result = json.loads(connection.getresponse().read())
 print result
 ```
 
-## Removing a class
+## Removing a schema 
 
 You can only remove a schema room your app if it is empty (has 0 objects). 
 To do that run:
