@@ -9,7 +9,7 @@ types in the databrowser.
 This API allows you to access the schemas of your app.
 
 ## Fetch the schema
-To fetch the Schema for all the classes of your app run:
+To fetch the Schema for all the classes of your app, run:
 
 ```bash
 curl -X GET \
@@ -64,7 +64,7 @@ The response body is JSON containing all the schema information of the app.
 }
 ```
 
-To fetch schema of a single class run:
+To fetch schema of a single class, run:
 
 ```bash
 curl -X GET \
@@ -89,7 +89,7 @@ print result
 ## Adding a schema 
 
 When you add a new schema to your app, it creates an empty class with the provided
-fields and some default fields applicable to the class. To add the schema run:
+fields and some default fields applicable to the class. To add the schema, run:
 
 ```bash
 curl -X POST \
@@ -116,7 +116,7 @@ print result
 
 ## Modifying the schema
 
-You can add or delete columns to a schema. To do so run:
+You can add or delete columns to a schema. To do so, run:
 
 ```bash
 curl -X PUT \
@@ -141,7 +141,7 @@ result = json.loads(connection.getresponse().read())
 print result
 ```
 
-To delete a particular field you need to use `{"__op" : "Delete" }`
+To delete a particular field, you need to use `{"__op" : "Delete" }`
 
 ```bash
 curl -X PUT \
@@ -168,8 +168,8 @@ print result
 
 ## Removing a schema 
 
-You can only remove a schema room your app if it is empty (has 0 objects). 
-To do that run:
+You can only remove a schema from your app if it is empty (has 0 objects). 
+To do that, run:
 
 ```bash
 curl -X DELETE\
