@@ -326,7 +326,8 @@ When a push notification is received, the “title” is displayed in the status
 
 Make sure you've gone through the [Android Push QuickStart](/apps/quickstart_push) to set up your app to receive pushes. The quickstart shows you how to set up push for all Android devices, including ones that do not support GCM. If you are only pushing to GCM-enabled devices, you can remove these elements from your `AndroidManifest.xml`:
 
-The `receiver` element for `com.parse.ParseBroadcastReceiver` (including the intent filter for `BOOT_COMPLETED` and `USER_PRESENT`)*   The `permission` element for `android.permission.RECEIVE_BOOT_COMPLETED`
+* The `receiver` element for `com.parse.ParseBroadcastReceiver` (including the intent filter for `BOOT_COMPLETED` and `USER_PRESENT`)
+* The `permission` element for `android.permission.RECEIVE_BOOT_COMPLETED`
 
 You will still need all the other elements (including the one for `com.parse.PushService`) as described in the quickstart. If you choose to subclass `com.parse.ParsePushBroadcastReceiver`, be sure to replace that name with your class' name in the registration.
 
@@ -425,4 +426,5 @@ Setting up Push Notifications is often a source of frustration for developers. T
 *   Check the number of recipients in your Parse Push Console. Does it match the expected number of recipients? Your push might be targeted incorrectly.
 *   If testing in the emulator, try cleaning and rebuilding your project and restarting your AVD.*   Turn on verbose logging with `Parse.setLogLevel(Parse.LOG_LEVEL_VERBOSE)`. The error messages will be a helpful guide to what may be going on.
 *   If you see the message "Finished (with error)" in your Dashboard, check your verbose logs. If you are performing pushes from a device, check that client-side push is enabled in your dashboard.
-*   In your logs, you may see an error message, "Could not construct writer" or other issues related to a broken pipe. When this occurs, the framework will continue to try reconnecting. It should not crash your app.*   If your app has been released for a while, it's possible for the recipient estimate on the push composer page to be higher than the pushes sent value on the push results page. The push composer estimate is generated via running your push segment query over your app's installation table.  We do not automatically delete installation objects when the users uninstall your app.  When we try to send a push, we detect uninstalled installations and do not include them in the pushes sent value on the results page.
+*   In your logs, you may see an error message, "Could not construct writer" or other issues related to a broken pipe. When this occurs, the framework will continue to try reconnecting. It should not crash your app.
+*   If your app has been released for a while, it's possible for the recipient estimate on the push composer page to be higher than the pushes sent value on the push results page. The push composer estimate is generated via running your push segment query over your app's installation table.  We do not automatically delete installation objects when the users uninstall your app.  When we try to send a push, we detect uninstalled installations and do not include them in the pushes sent value on the results page.

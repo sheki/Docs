@@ -494,7 +494,7 @@ For more details on `PFQuery` please look at the query portion of this guide.  A
 
 ## Data Types
 
-So far we've used values with type `NSString`, `NSNumber`, and `%{ParseObject}`. Parse also supports `NSDate`, `NSData`, and `NSNull`.
+So far we've used values with type `NSString`, `NSNumber`, and `%{ParseObject}`. Parse also supports `NSDate`, `NSData`, and `NSNull`. 
 
 You can nest `NSDictionary` and `NSArray` objects to store more structured data within a single `%{ParseObject}`.
 
@@ -508,15 +508,17 @@ NSData *data = [@"foo" dataUsingEncoding:NSUTF8StringEncoding];
 NSArray *array = @[string, number];
 NSDictionary *dictionary = @{@"number": number,      @"string": string};
 NSNull *null = [NSNull null];
+PFObject *pointer = [PFObject objectWithoutDataWithClassName:@"MyClassName" objectId:@"xyz"];
 
 PFObject *bigObject = [PFObject objectWithClassName:@"BigObject"];
-bigObject[@"myNumber"] = number;
-bigObject[@"myString"] = string;
-bigObject[@"myDate"] = date;
-bigObject[@"myData"] = data;
-bigObject[@"myArray"] = array;
-bigObject[@"myDictionary"] = dictionary;
-bigObject[@"myNull"] = null;
+bigObject[@"myNumberKey"] = number;
+bigObject[@"myStringKey"] = string;
+bigObject[@"myDateKey"] = date;
+bigObject[@"myBytesKey"] = data; // shows up as 'bytes' in the Data Browser
+bigObject[@"myArrayKey"] = array;
+bigObject[@"myObjectKey"] = dictionary; // shows up as 'object' in the Data Browser
+bigObject[@"myNullKey"] = null;
+bigObject[@"myPointerKey"] = pointer; // shows up as Pointer <MyClassName> in the Data Browser
 [bigObject saveInBackground];
 ```
 ```swift
@@ -527,21 +529,23 @@ let data = "foo".dataUsingEncoding(NSUTF8StringEncoding)
 let array = [string, number]
 let dictionary = ["number": number, "string": string]
 let null = NSNull()
+let pointer = PFObject(objectWithoutDataWithClassName:"MyClassName", objectId: "xyz")
 
 var bigObject = PFObject(className:"BigObject")
-bigObject["myNumber"] = number
-bigObject["myString"] = string
-bigObject["myDate"] = date
-bigObject["myData"] = data
-bigObject["myArray"] = array
-bigObject["myDictionary"] = dictionary
-bigObject["myNull"] = null
+bigObject["myNumberKey"] = number
+bigObject["myStringKey"] = string
+bigObject["myDateKey"] = date
+bigObject["myBytesKey"] = data // shows up as 'bytes' in the Data Browser
+bigObject["myArrayKey"] = array
+bigObject["myObjectKey"] = dictionary // shows up as 'object' in the Data Browser
+bigObject["myNullKey"] = null
+bigObject["myPointerKey"] = pointer // shows up as Pointer <MyClassName> in the Data Browser
 bigObject.saveInBackground()
 ```
 
-We do not recommend storing large pieces of binary data like images or documents using `NSData` fields on `%{ParseObject}`. `%{ParseObject}`s should not exceed 128 kilobytes in size. To store more, we recommend you use `PFFile`. See the [guide section](#files) for more details.
+We do not recommend storing large pieces of binary data like images or documents using `NSData` fields on `%{ParseObject}`. `%{ParseObject}`s should not exceed 128 kilobytes in size. To store more, we recommend you use `%{ParseFile}`. See [Files](#files) for more details.
 
-For more information about how Parse handles data, check out our documentation on [Data &amp; Security](#data).
+For more information about how Parse handles data, check out our [Data](#data) documentation.
 
 ## Subclasses
 
@@ -582,7 +586,11 @@ To create a `%{ParseObject}` subclass:
 1.  Declare a subclass which conforms to the `PFSubclassing` protocol.
 2.  Implement the class method `parseClassName`. This is the string you would pass to `initWithClassName:` and makes all future class name references unnecessary.
 3.  Import `PFObject+Subclass` in your .m file. This implements all methods in `PFSubclassing` beyond `parseClassName`.
-4.  Call `[YourClass registerSubclass]` before Parse `setApplicationId:clientKey:`. An easy way to do this is with your class' [+load](https://developer.apple.com/library/ios/documentation/cocoa/reference/foundation/classes/nsobject_class/reference/reference.html#//apple_ref/occ/clm/NSObject/load) method.
+4.  Call `[YourClass registerSubclass]` before Parse `setApplicationId:clientKey:`. 
+
+An easy way to do this is with your class' [+load](https://developer.apple.com/library/ios/documentation/cocoa/reference/foundation/classes/nsobject_class/reference/reference.html#//apple_ref/occ/clm/NSObject/load) (Obj-C only) or with [initialize](https://developer.apple.com/library/ios/documentation/Cocoa/Reference/Foundation/Classes/NSObject_Class/#//apple_ref/occ/clm/NSObject/initialize) (both Obj-C and Swift) methods.
+
+Please note that the `initialize` method is not called until the class receives its first message, meaning that you need to call any instance or class method on your subclass before it will be registered with Parse SDK.
 
 The following code sucessfully declares, implements, and registers the `Armor` subclass of `%{ParseObject}`:
 

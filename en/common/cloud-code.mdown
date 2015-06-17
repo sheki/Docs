@@ -104,8 +104,10 @@ PFCloud.callFunctionInBackground("hello", withParameters: nil) {
 $result = ParseCloud::run("hello", []);
 ```
 ```common-csharp
-var result = await ParseCloud.CallFunctionAsync<IDictionary<string, object>>("hello", new Dictionary<string, object>());
+ParseCloud.CallFunctionAsync<IDictionary<string, object>>("hello", new Dictionary<string, object>()).ContinueWith(t => {
+  var result = t.Result;
 // result is "Hello world!"
+});
 ```
 ```common-js
 Parse.Cloud.run('hello', {}, {
@@ -164,7 +166,7 @@ Parse.Cloud.define("averageStars", function(request, response) {
 
 The only difference between using `averageStars` and `hello` is that we have to provide the parameter that will be accessed in `request.params.movie` when we call the Cloud function. Read on to learn more about how Cloud functions can be called.
 
-Cloud functions can be called from any of the client SDKs, as well as through the REST API (use the drop-down in the example below to switch SDKs). For example, to call the Cloud function named `averageStars` with a parameter named `movie`:
+Cloud functions can be called from any of the client SDKs, as well as through the REST API (go back to our list of [Platforms](/docs) to switch SDKs). For example, to call the Cloud function named `averageStars` with a parameter named `movie`:
 
 ```common-java
 HashMap<String, Object> params = new HashMap<String, Object>();
@@ -202,7 +204,10 @@ IDictionary<string, object> params = new Dictionary<string, object>
 {
     { "movie", "The Matrix" }
 };
-var result = await ParseCloud.CallFunctionAsync<IDictionary<string, object>>("averageStars", params);
+ParseCloud.CallFunctionAsync<IDictionary<string, object>>("averageStars", params).ContinueWith(t => {
+  var ratings = t.Result;
+  // ratings is 4.5
+});
 ```
 ```common-js
 Parse.Cloud.run('averageStars', { movie: 'The Matrix' }, {
